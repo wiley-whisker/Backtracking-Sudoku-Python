@@ -84,7 +84,7 @@ class View(object):
         self.root.mainloop()
         exit()
 
-    def update_state(self, board):
+    def update_state(self):
         self.sb.update_state()
         self.sb.pack()
 

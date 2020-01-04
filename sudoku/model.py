@@ -26,6 +26,6 @@ class Model(object):
         #         # print_board(self.board)
         try:
             for observer in self.observers:
-                observer.update_state(self.board)
+                observer.update_state()
         except:
             exit()
