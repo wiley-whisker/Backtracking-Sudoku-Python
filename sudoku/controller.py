@@ -1,3 +1,10 @@
+"""
+controller.py
+
+Contains the Controller class for solving sudoku puzzles. This is where the solving takes place.
+
+author: Wiley Matthews
+"""
 from typing import List
 import time
 import threading
@@ -10,16 +17,27 @@ class Controller:
     def __init__(self, model, delay=0):
         # Solving elements
         self.stop = False
-        self.delay = delay
 
+        # Display elements
+        self.delay = delay
         self.model = model
 
-    def start_solving(self):
+    def start_solving(self) -> None:
+        """
+        This method starts the worker thread that will spawn from the main-view thread and do the solving.
+        :return: None
+        """
         self._worker = threading.Thread(target=self.worker_task)
         self._worker.start()
 
-    def worker_task(self, delay=1):
-        time.sleep(delay)  # To give GUI time to initialize.
+    def worker_task(self, delay=1) -> None:
+        """
+        The task to be carried out by the worker thread. Waits for a specified delay (default 1 second) before starting
+        to solve in order to give the UI time to finish initializing.
+        :param delay: time delay between method call and solving start (in seconds).
+        :return: None
+        """
+        time.sleep(delay)  # To give UI time to initialize.
         self.solveSudoku(self.model)
 
     def solveSudoku(self, model: Model) -> None:
@@ -49,6 +67,11 @@ class Controller:
             self.stop = True
 
     def is_valid(self, board: List[List[str]]) -> bool:
+        """
+        Determines if the state of the supplied sudoku puzzle is valid.
+        :param board: nested lists representing the puzzle state
+        :return: True if valid state, false if invalid.
+        """
         for i in range(len(board)):
             row = []
             col = []
@@ -73,6 +96,11 @@ class Controller:
         return True
 
     def is_solution(self, board: List[List[str]]) -> bool:
+        """
+        Determines if the state of the supplied sudoku puzzle is a solution.
+        :param board: nested lists representing the puzzle state
+        :return: True if solution, false if not a solution.
+        """
         for i in range(len(board)):
             row = []
             col = []
