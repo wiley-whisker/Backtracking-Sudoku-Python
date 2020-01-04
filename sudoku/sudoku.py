@@ -8,6 +8,7 @@ author: Wiley Matthews
 import argparse
 import sys
 import os
+from typing import List
 
 from model import Model, print_board
 from view import View
@@ -26,6 +27,10 @@ def check_file(filename: str) -> None:
 
 
 def get_args() -> argparse.Namespace:
+    """
+    Defines and parses the program arguments.
+    :return: a namespace containing the args.
+    """
     parser = argparse.ArgumentParser(description="Solves a Sudoku puzzle using backtracking and displays the solution.")
 
     parser.add_argument('filename', help="board file")
@@ -36,7 +41,12 @@ def get_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def read_board_file(filename):
+def read_board_file(filename: str) -> List[List[str]]:
+    """
+    Read a board file.
+    :param filename: filename/directory of Sudoku board file.
+    :return: nested lists representing the puzzle.
+    """
     board = []
     with open(filename, 'r') as f:
         for line in f.readlines():
@@ -44,13 +54,24 @@ def read_board_file(filename):
     return board
 
 
-def write_board_file(board, filename) -> None:
+def write_board_file(board: List[List[str]], filename: str) -> None:
+    """
+    Takes a Sudoku puzzle as nested lists and writes them to the specified file.
+    :param board: nested lists representing the puzzle.
+    :param filename: filename/directory of Sudoku board file.
+    :return: None
+    """
     with open(filename, 'w') as f:
         for row in board:
             f.write(' '.join(row) + '\n')  # newline denotes row endings.
 
 
-def main():
+def main() -> None:
+    """
+    Parses program arguments solves the specified Sudoku puzzle, and prints the solution to standard output. Then saves
+    and/or displays the solution as specified in the program arguments.
+    :return: None
+    """
     args = get_args()
     check_file(args.filename)
     board = read_board_file(args.filename)
@@ -58,6 +79,7 @@ def main():
     model = Model(board)
     controller = Controller(model)
     controller.solveSudoku(model)
+    print_board(controller.model.board)
     if args.save:
         write_board_file(model.board, args.save)
         print("Solution saved to", args.save)
@@ -65,7 +87,6 @@ def main():
         view = View(board_copy)
         view.start()
         print("Display complete")
-    print_board(controller.model.board)
 
 
 if __name__ == '__main__':
