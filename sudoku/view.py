@@ -127,7 +127,7 @@ class View(object):
 
 def main() -> None:
     """
-    test program for thn this module is run directly.
+    Test program for when this module is run directly.
     :return: None
     """
     b = [
