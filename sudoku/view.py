@@ -1,8 +1,7 @@
 from tkinter import *
-import threading
 
-from controller import Controller
 from model import Model
+from controller import Controller
 
 WIDTH = 500
 HEIGHT = 500

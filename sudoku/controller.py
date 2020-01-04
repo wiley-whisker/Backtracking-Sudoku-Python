@@ -19,7 +19,7 @@ class Controller:
         self._worker.start()
 
     def worker_task(self, delay=1):
-        time.sleep(delay)
+        time.sleep(delay)  # To give GUI time to initialize.
         self.solveSudoku(self.model)
 
     def solveSudoku(self, model: Model) -> None:
