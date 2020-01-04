@@ -1,8 +1,19 @@
+"""
+view.py
+
+This module contains the classes used for the view portion of the MVC pattern. The View class is where the GUI is
+controlled from and started.
+
+author: Wiley Matthews
+author: http://newcoder.io/gui/part-3/ Specifically for much of the contents of the SudokuBoard class.
+"""
 from tkinter import *
+from typing import List
 
 from model import Model
 from controller import Controller
 
+# SudokoBoard frame specs.
 WIDTH = 500
 HEIGHT = 500
 MARGIN = 10
@@ -11,7 +22,7 @@ SIDE = 52
 
 class SudokuBoard(Frame):
 
-    def __init__(self, parent, board):
+    def __init__(self, parent: Tk, board: List[List[str]]) -> None:
         self.board = board
         self.parent = parent
         Frame.__init__(self, parent)
@@ -20,7 +31,11 @@ class SudokuBoard(Frame):
 
         self.__initUI()
 
-    def __initUI(self):
+    def __initUI(self) -> None:
+        """
+        Initialize the UI.
+        :return: None
+        """
         self.parent.title("Sudoku")
         self.pack(fill=BOTH, expand=1)
         self.canvas = Canvas(self,
@@ -31,9 +46,10 @@ class SudokuBoard(Frame):
         self.__draw_grid()
         self.__draw_puzzle()
 
-    def __draw_grid(self):
+    def __draw_grid(self) -> None:
         """
         Draws grid divided with blue lines into 3x3 squares
+        :return: None
         """
         for i in range(10):
             color = "blue" if i % 3 == 0 else "gray"
@@ -50,7 +66,11 @@ class SudokuBoard(Frame):
             y1 = MARGIN + i * SIDE
             self.canvas.create_line(x0, y0, x1, y1, fill=color)
 
-    def __draw_puzzle(self):
+    def __draw_puzzle(self) -> None:
+        """
+        Draws the characters that consist the puzzle.
+        :return: None
+        """
         self.canvas.delete("numbers")
         for i in range(9):
             for j in range(9):
@@ -64,17 +84,29 @@ class SudokuBoard(Frame):
                         x, y, text=answer, tags="numbers", fill=color
                     )
 
-    def update_state(self):
+    def update_state(self) -> None:
+        """
+        Redraws the board after a model state update.
+        :return: None
+        """
         self.__draw_puzzle()
 
 
 class View(object):
 
-    def __init__(self, start_board):
+    def __init__(self, start_board: List[List[str]]) -> None:
+        """
+        Creates root window and saves starting puzzle.
+        :param start_board: initial state of puzzle
+        """
         self.root = Tk()
         self.board = start_board
 
-    def start(self):
+    def start(self) -> None:
+        """
+        Starts the UI and necesary MVC components, then starts solving.
+        :return: None
+        """
         self.sb = SudokuBoard(self.root, self.board)
         self.sb.pack()
         model = Model(self.board)
@@ -84,12 +116,20 @@ class View(object):
         self.root.mainloop()
         exit()
 
-    def update_state(self):
+    def update_state(self) -> None:
+        """
+        Model uses this to inform view the puzzle state has been changed, and that the puzzle needs to be redrawn.
+        :return: None
+        """
         self.sb.update_state()
         self.sb.pack()
 
 
-def main():
+def main() -> None:
+    """
+    test program for thn this module is run directly.
+    :return: None
+    """
     b = [
         ["5", "3", ".", ".", "7", ".", ".", ".", "."],
         ["6", ".", ".", "1", "9", "5", ".", ".", "."],
