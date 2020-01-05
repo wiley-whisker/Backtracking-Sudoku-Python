@@ -8,8 +8,6 @@ author: Wiley Matthews
 import sys
 from typing import List
 
-from view import View
-
 
 def print_board(board: List[List[str]]) -> None:
     """
@@ -36,10 +34,10 @@ class Model(object):
         self.board = start_board
         self.observers = []
 
-    def add_observer(self, obs: View) -> None:
+    def add_observer(self, obs) -> None:
         """
         Add a view as an observer of this model.
-        :param obs: view to observe this model.
+        :param obs: View to observe this model.
         :return: None
         """
         self.observers.append(obs)

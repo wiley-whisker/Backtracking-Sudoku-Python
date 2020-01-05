@@ -1,7 +1,8 @@
 """
 controller.py
 
-Contains the Controller class for solving sudoku puzzles. This is where the solving takes place.
+Contains the Controller class for solving sudoku puzzles. This is where the solving takes place. If not used in an MVC
+context, the Controller class can be thought of as a "SudokuSolver" class.
 
 author: Wiley Matthews
 """
@@ -42,9 +43,10 @@ class Controller:
 
     def solveSudoku(self, model: Model) -> None:
         """
-        Do not return anything, modify board in-place instead.
+        Recursively use backtracking to solve a Sudoku puzzle in-place.
+        :param model: model containing puzzle.
+        :return: None
         """
-        model = self.model
         if not (self.is_solution(model.board) or self.stop):
             for i in range(len(model.board)):
                 for j in range(len(model.board[i])):
